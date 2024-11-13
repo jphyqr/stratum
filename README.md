@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Authentication in Your App
+
+This project comes with a pre-configured authentication system using NextAuth.js. For development, it includes a mock authentication system that can be easily replaced with real providers.
+
 
 ## Getting Started
 
-First, run the development server:
-
+1. Copy `.env.example` to `.env.local`:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Update the environment variables:
+```env
+NEXTAUTH_SECRET=your-secret-key # Generate with: openssl rand -base64 32
+NEXTAUTH_URL=http://localhost:3000
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. For development, the mock auth system is enabled by default. You can switch users using the auth controls panel in the bottom right corner of your app.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Mock Users
+- Admin: admin@example.com
+- Regular User: user@example.com
+- Super Admin: super@example.com
 
-## Learn More
+## Implementing Real Authentication
 
-To learn more about Next.js, take a look at the following resources:
+1. Disable mock auth by removing or setting to false:
+```env
+NEXT_PUBLIC_ENABLE_MOCK_AUTH=false
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Configure your chosen auth provider:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Email Provider
+```env
+EMAIL_SERVER_HOST=smtp.example.com
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your-email
+EMAIL_SERVER_PASSWORD=your-password
+EMAIL_FROM=noreply@example.com
+```
 
-## Deploy on Vercel
+### Database Setup
+Choose your database adapter and uncomment the relevant environment variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Prisma
+```env
+DATABASE_URL="postgresql://..."
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Supabase
+```env
+SUPABASE_URL=your-project-url
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-key
+```
+
+## Auth Features
+- JWT-based sessions
+- Role-based access control
+- Protected API routes
+- Protected pages
+- Type-safe authentication
+- Customizable user roles and permissions
+
+## Type Safety
+The auth system includes full TypeScript support. Custom fields are defined in:
+```typescript
+// app/types/next-auth.d.ts
+```
+
+## Protected Routes
+Routes are protected using Next.js middleware:
+```typescript
+// middleware.ts
+```
+
+Use the provided auth hooks in your components:
+```typescript
+import { useSession } from "next-auth/react"
+
+export function ProtectedComponent() {
+  const { data: session } = useSession()
+  // ...
+}
+```

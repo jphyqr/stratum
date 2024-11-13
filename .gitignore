@@ -38,3 +38,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# TNDevs
+.ai/*
+!.ai/config.ts
+!.ai/types.ts
