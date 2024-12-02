@@ -1,3 +1,4 @@
+
 // app/_layers/auth/config/mock.ts
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -19,8 +20,25 @@ export const mockAuthConfig: NextAuthOptions = {
       },
     }),
   ],
+
+  cookies: {
+    sessionToken: {
+      name: `stratum-${process.env.NEXTAUTH_SECRET?.slice(0,6)}-session`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    },
+  },
+
+
   session: { strategy: "jwt" },
   callbacks: {
+
+
+
     jwt: async ({ token, user, trigger, session }) => {
       if (user) {
         token.id = user.id
@@ -66,5 +84,6 @@ export const mockAuthConfig: NextAuthOptions = {
         slug: token.slug,
       },
     }),
+    
   },
 }

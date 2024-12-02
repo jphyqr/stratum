@@ -1,4 +1,4 @@
-// app/(dashboard)/page.tsx
+// app/(dashboard)/dashboard/page.tsx
 import { Suspense } from "react"
 import { Metadata } from "next"
 import { getServerSession } from "next-auth"
@@ -8,6 +8,7 @@ import { ActivityFeed } from "./_components/activity-feed"
 import { DashboardStats, Activity } from "./types"
 import { StatsCards } from "./_components/stats-card"
 import { headers } from 'next/headers'
+import { authOptions } from "@/app/api/auth/[...nextauth]/options"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -91,31 +92,41 @@ function ActivityFeedSkeleton() {
 }
 
 export default async function DashboardPage() {
-  const session = await getServerSession()
-  if (!session) notFound()
+  console.log("Rendering dashboard page");
+  const session = await getServerSession(authOptions)
+  console.log("Session:", session);
+  
+  if (!session) {
+    console.log("No session, showing 404");
+    notFound()
+  }
 
-  return (
-    <div className="space-y-8 p-8">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">
-          Welcome back, {session.user.name}
-        </h2>
-        <p className="text-muted-foreground">
-          Here is an overview of your dashboard
-        </p>
+  try {
+    return (
+      <div className="space-y-8 p-8">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">
+            Welcome back, {session.user.name}
+          </h2>
+          <p className="text-muted-foreground">
+            Here is an overview of your dashboard
+          </p>
+        </div>
+
+        <Suspense fallback={<StatsCardsSkeleton />}>
+          <StatsSection />
+        </Suspense>
+
+        <Suspense fallback={<ActivityFeedSkeleton />}>
+          <ActivitySection />
+        </Suspense>
       </div>
-
-      <Suspense fallback={<StatsCardsSkeleton />}>
-        <StatsSection />
-      </Suspense>
-
-      <Suspense fallback={<ActivityFeedSkeleton />}>
-        <ActivitySection />
-      </Suspense>
-    </div>
-  )
+    )
+  } catch (error) {
+    console.error("Dashboard render error:", error);
+    return <div>Error loading dashboard</div>
+  }
 }
-
 // Separate components for streaming
 async function StatsSection() {
   const stats = await getStats()

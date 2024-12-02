@@ -21,6 +21,11 @@ import { useSession } from "next-auth/react"
   
   const adminItems = [
     {
+      title: "Stratum",
+      url: "/how-stratum-works",
+      icon: BarChart,
+    },
+    {
       title: "Overview",
       url: "/admin",
       icon: BarChart,

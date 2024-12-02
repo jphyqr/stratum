@@ -8,6 +8,8 @@ body {
 
 @layer base {
   :root {
+    --ai-accent: 250 95% 60%;  /* Vibrant violet */
+    --ai-muted: 250 20% 90%;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -45,6 +47,8 @@ body {
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+    --ai-accent: 250 85% 65%;
+    --ai-muted: 250 20% 30%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;

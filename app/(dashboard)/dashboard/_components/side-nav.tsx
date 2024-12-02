@@ -1,5 +1,5 @@
 // app/(dashboard)/_components/side-nav.tsx
-import { Home, Settings, User } from "lucide-react"
+import { Home, Settings, User, Wand } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +12,11 @@ import {
 } from "@/components/ui/sidebar"
 
 const dashboardItems = [
+  {
+    title: "Stratum",
+    url: "/how-stratum-works",
+    icon: Wand,
+  },
   {
     title: "Overview",
     url: "/dashboard",

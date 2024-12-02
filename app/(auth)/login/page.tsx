@@ -1,15 +1,14 @@
 // app/(auth)/login/page.tsx
-import { Metadata } from "next"
+"use client"
 
 import { Button } from "@/components/ui/button"
 import { signIn } from "next-auth/react"
-
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
-}
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
@@ -23,7 +22,10 @@ export default function LoginPage() {
         </div>
         <Button 
           className="w-full" 
-          onClick={() => signIn("mock-auth")}
+          onClick={() => signIn("mock-auth", { 
+            callbackUrl,
+            redirect: true 
+          })}
         >
           Sign In
         </Button>

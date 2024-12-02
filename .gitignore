@@ -43,3 +43,6 @@ next-env.d.ts
 .ai/*
 !.ai/config.ts
 !.ai/types.ts
+
+
+lib/config.ts
