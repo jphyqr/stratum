@@ -14,7 +14,7 @@ export function UserSwitcher() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 p-4 bg-yellow-100 border-yellow-300 border rounded shadow-lg z-50">
+    <div className="fixed bottom-4 left-4 p-4 bg-yellow-100 border-yellow-300 border rounded shadow-lg z-50">
       <h3 className="font-bold mb-2">Mock Auth Controls</h3>
       <select
         value={session?.user?.id || ""}

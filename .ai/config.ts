@@ -19,43 +19,43 @@ export default {
           path: "package.json",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "middleware": {
+        "middleware": {
           path: "middleware.ts",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "tsconfig": {
+        "tsconfig": {
           path: "tsconfig.json",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "nextconfig": {
+        "nextconfig": {
           path: "next.config.ts",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "tailwind": {
+        "tailwind": {
           path: "tailwind.config.ts",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "env": {
+        "env": {
           path: ".env.example",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "auth": {
+        "auth": {
           path: "app/api/auth/[...nextauth]/options.ts",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "example-state": {
+        "example-state": {
           path: "app/_layers/state/OptimalState.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "example-forms": {
+        "example-forms": {
           path: "app/_layers/forms/OptimalForm.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "example-data": {
+        "example-data": {
           path: "app/_layers/data/OptimalTable.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "example-pages": [
+        "example-pages": [
           {
             id: "1",
             path: "app/_layers/pages/ContentPage.tsx",
@@ -82,16 +82,16 @@ export default {
             lastSync: "2024-11-15T01:26:37.351Z"
           }
         ],
-      "about": {
+        "about": {
           path: "app/(marketing)/about/page.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "faq": {
+        "faq": {
           path: "app/(marketing)/faq/page.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         },
-      "architecture": {
-          path: "app/(docs)/architecture/page.tsx",
+        "architecture": {
+          path: "app/(stratum)/architecture/page.tsx",
           lastSync: "2024-11-15T01:26:37.351Z"
         }  // Use the generated config here instead of mapping again
 
@@ -106,7 +106,7 @@ export function getProjectConfig() {
     // Read from .ai/config.ts
     const configPath = path.join(process.cwd(), '.ai', 'config.ts');
     const configContent = readFileSync(configPath, 'utf-8');
-    
+
     // Extract the object from the TypeScript file
     const configMatch = configContent.match(/export default ({[\s\S]*?}) satisfies AIConfig;/);
     if (!configMatch) {
@@ -115,7 +115,7 @@ export function getProjectConfig() {
 
     // Parse the object
     const config: AIConfig = eval(`(${configMatch[1]})`);
-    
+
     return {
       projectId: config.projects.default.id
     };
