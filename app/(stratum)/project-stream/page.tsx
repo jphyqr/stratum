@@ -9,10 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ProductStreamResponse } from "./types"
 import { StreamCard } from "./_components/StreamCard"
+import { BigBlocksSkeleton } from "./_components/BigBlocksSkeleton"
+import { BigBlocksManager } from "./_components/BigBlocksManager"
+import { ProductStreamBoard } from "./_components/ProductStreamBoard"
 
-async function getProductStreamData(projectId: string): Promise<ProductStreamResponse[] | null> {
+async function getProductStreamData(projectId: string): Promise<ProductStreamResponse | null> {
   // Simulate API delay
-  const res = await makeExtensionRequest<ProductStreamResponse[]>(
+  const res = await makeExtensionRequest<ProductStreamResponse>(
     `/api/extension/ai-projects/${projectId}/product-stream`,
     { method: 'GET' },
  
@@ -21,6 +24,16 @@ async function getProductStreamData(projectId: string): Promise<ProductStreamRes
 
   if (!res.ok) return null
   return res.json()
+}
+
+async function getBigBlocksData(projectId: string) {
+  const res = await makeExtensionRequest(
+    `/api/extension/ai-projects/${projectId}/big-blocks`,
+    { method: 'GET' }
+  );
+
+  if (!res.ok) return null;
+  return res.json();
 }
 
 export default async function ProductStreamPage() {
@@ -36,13 +49,17 @@ export default async function ProductStreamPage() {
     return null
   }
   const streamData = await getProductStreamData(config.projectId);
-  if (!streamData) return null;
+  const blocksData = await getBigBlocksData(config.projectId);
+  
 
   return (
     <div className="container py-6">
+
+
       <Suspense fallback={<ProductStreamSkeleton />}>
-        <ProductStreamContent 
-          initialData={streamData} 
+      <ProductStreamBoard 
+          stream={streamData} 
+          blocks={blocksData}
           projectId={config.projectId} 
         />
       </Suspense>

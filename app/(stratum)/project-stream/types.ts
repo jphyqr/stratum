@@ -141,6 +141,8 @@ export interface WorkItemUpdate {
   type: WorkType;
   scope: string;
   progress: WorkProgressItem;
+  bigBlockId: string | null; // Add this
+
   context: TechnicalContext;
   nextSteps: string[];
 }
@@ -149,6 +151,8 @@ export interface DevSessionUpdate {
   activeWork: string[];
   decisions: string[];
   questions: string[];
+  bigBlockId: string | null; // Add this
+
   codeState: {
     completed: string[];
     pending: string[];
@@ -159,6 +163,8 @@ export interface DevSessionUpdate {
 export interface ProjectHealthUpdate {
   velocity: Status;
   risks: string[];
+  bigBlockId: string | null; // Add this
+
   readiness: {
     marketStatus: string;
     launchBlockers: string[];
@@ -172,6 +178,9 @@ export interface ProjectHealthUpdate {
 export interface StoryLineUpdate {
   type: StoryType;
   audience: Audience;
+  bigBlockId: string | null; // Add this
+  stage?: StoryStage;  // Optional for creation
+  isArchived: boolean; // Optional for creation,
   hooks: string[];
   context: {
     impact: string[];
@@ -180,6 +189,14 @@ export interface StoryLineUpdate {
   };
 }
 
+
+export enum StoryStage {
+  OPPORTUNITY = 'OPPORTUNITY',
+  IN_BRIEF = 'IN_BRIEF',
+  IN_PROGRESS = 'IN_PROGRESS',
+  REVIEW = 'REVIEW',
+  COMPLETE = 'COMPLETE'
+}
 
 
 // Individual analysis section type
@@ -229,7 +246,19 @@ export interface UpdateAnalyzerProps {
 
 
 
-
+export interface BigBlockResponse {
+  id: string;
+  name: string;
+  description?: string;
+  order: number;
+  streamId?: string;
+  projectId: string;
+  workItems: any[];
+  healthUpdates: any[];
+  stories: any[];
+  createdAt: string;
+  updatedAt: string;
+}
 
 
 export interface ProductStreamResponse {
@@ -252,6 +281,8 @@ export interface ProductStreamResponse {
 export interface WorkItemResponse {
   id: string;
   streamId: string;
+  bigBlockId: string | null; // Add this
+  order: number;
   title: string;
   type: WorkType;
   scope: string;
@@ -276,6 +307,8 @@ export interface DevSessionResponse {
   id: string;
   streamId: string;
   activeWork: string[];
+  bigBlockId: string | null; // Add this
+
   decisions: string[];
   questions: string[];
   codeState: {
@@ -291,6 +324,8 @@ export interface ProjectHealthResponse {
   id: string;
   streamId: string;
   velocity: Status;
+  bigBlockId: string | null; // Add this
+
   risks: string[];
   readiness: {
     marketStatus: string;
@@ -308,6 +343,10 @@ export interface StoryLineResponse {
   id: string;
   streamId: string;
   type: StoryType;
+  isArchived: boolean;
+  bigBlockId: string | null; // Add this
+  stage: StoryStage;  // Add this
+  order: number;
   audience: Audience;
   hooks: string[];
   context: {

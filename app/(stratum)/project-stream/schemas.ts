@@ -26,7 +26,7 @@ export const workItemUpdateSchema = z.object({
 });
 
 export const productStreamUpdateSchema = z.object({
-  type: z.enum(['CREATE', 'UPDATE']),
+
   timestamp: z.string().datetime(),
   data: z.object({
     workItems: z.array(workItemUpdateSchema),

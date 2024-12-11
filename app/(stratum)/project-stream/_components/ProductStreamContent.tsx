@@ -30,7 +30,7 @@ import { init } from "next/dist/compiled/webpack/webpack"
 import { useRouter } from "next/navigation"
 
 interface ProductStreamContentProps {
-  initialData: ProductStreamResponse[] // This would be your backend data type
+  initialData: ProductStreamResponse // This would be your backend data type
   projectId: string
 }
 

@@ -172,7 +172,7 @@ export function DocsNav({ projectId }: { projectId?: string }) {
   }, [params.projectId])
 
   return (
-    <Sidebar variant="inset" collapsible="none">
+    <Sidebar variant='sidebar' collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
          

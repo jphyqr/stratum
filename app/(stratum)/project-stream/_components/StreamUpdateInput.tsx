@@ -19,16 +19,16 @@ import { CompleteAnalysis, ExtractionResult, ProductStreamResponse } from "../ty
 import { validateStreamUpdate } from "../utils/validation"
 
 interface StreamUpdateInputProps {
-  selectedStreamId: string | null
+  isCreating: boolean;  
   onAnalysisComplete: (analysis: CompleteAnalysis) => Promise<void>;
-  streams: ProductStreamResponse[]
+  stream: ProductStreamResponse | null
 }
 
 // app/(docs)/product-stream/_components/StreamUpdateInput.tsx
 export function StreamUpdateInput({ 
-    selectedStreamId, 
+    isCreating, 
     onAnalysisComplete,
-    streams 
+    stream 
   }: StreamUpdateInputProps) {
     const [input, setInput] = useState("")
     const [analyzedData, setAnalyzedData] = useState<CompleteAnalysis | null>(null)
@@ -93,8 +93,7 @@ export function StreamUpdateInput({
         }))
       });
 
-    const selectedStream = streams.find(s => s.id === selectedStreamId)
-  
+   
     const analyzeInput = useCallback((text: string) => {
       try {
         const jsonStart = text.indexOf('{')
@@ -175,12 +174,9 @@ export function StreamUpdateInput({
           onClick={() => analyzedData && onAnalysisComplete(analyzedData)}
           disabled={!analyzedData || !validation.isValid}
         >
-          {selectedStreamId ? 
-            `Update Stream ${selectedStream?.id.slice(0, 6)}` : 
-            'Create New Stream'
-          }
+          Update Stream
         </Button>
-       ), [analyzedData, validation.isValid, selectedStreamId, selectedStream, onAnalysisComplete]);
+       ), [analyzedData, validation.isValid, onAnalysisComplete]);
        
 
     return (
@@ -188,15 +184,11 @@ export function StreamUpdateInput({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold">Development Context</h3>
-            {selectedStream ? (
+          
               <p className="text-sm text-muted-foreground">
-                Will update stream from {new Date(selectedStream.timestamp).toLocaleDateString()}
+                Will create new work items, decisions, and stories
               </p>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Will create new stream
-              </p>
-            )}
+           
           </div>
         </div>
   
